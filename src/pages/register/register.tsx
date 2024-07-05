@@ -9,12 +9,18 @@ export const Register: FC = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorText, setErrorText] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector(selectorRequestStatus);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(registerUser({ name: userName, email, password }));
+    dispatch(registerUser({ name: userName, email, password }))
+      .unwrap()
+      .catch((err) => {
+        console.log(err);
+        setErrorText((err as Error).message);
+      });
   };
 
   if (status === 'Loading') {
@@ -23,7 +29,7 @@ export const Register: FC = () => {
 
   return (
     <RegisterUI
-      errorText=''
+      errorText={errorText}
       email={email}
       userName={userName}
       password={password}

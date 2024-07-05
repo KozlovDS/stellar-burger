@@ -15,11 +15,12 @@ export const Login: FC = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    try {
-      await dispatch(loginUser({ email, password }));
-    } catch (error) {
-      setErrorText('Ошибка при авторизации: ' + (error as Error).message);
-    }
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .catch((err) => {
+        console.log(err);
+        setErrorText((err as Error).message);
+      });
   };
 
   if (status === 'Loading') {

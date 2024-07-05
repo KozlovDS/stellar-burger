@@ -55,15 +55,13 @@ export const updateUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   'user/logoutUser',
-  async (_, { dispatch }) => {
-    try {
-      await logoutApi();
-      localStorage.clear();
-      deleteCookie('accessToken');
-      dispatch(userActions.userLogout());
-    } catch (error) {
-      console.log('Ошибка выполнения выхода');
-    }
+  (_, { dispatch }) => {
+    logoutApi().catch((err) => {
+      console.error(err);
+    });
+    localStorage.clear();
+    deleteCookie('accessToken');
+    dispatch(userActions.userLogout());
   }
 );
 

@@ -4,7 +4,7 @@ type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
 
 export type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 export type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
-export type FulfilleddAction = ReturnType<GenericAsyncThunk['fulfilled']>;
+export type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 const hasPrefix = (action: UnknownAction, prefix: string): boolean =>
   action.type.startsWith(prefix);
@@ -12,7 +12,7 @@ const hasPrefix = (action: UnknownAction, prefix: string): boolean =>
 const isPending = (action: PendingAction): boolean =>
   action.type.endsWith('/pending');
 
-const isFulfilled = (action: FulfilleddAction): boolean =>
+const isFulfilled = (action: FulfilledAction): boolean =>
   action.type.endsWith('/fulfilled');
 
 const isRejected = (action: RejectedAction): boolean =>
@@ -25,5 +25,5 @@ export const isActionRejected = (prefix: string) => (action: RejectedAction) =>
   hasPrefix(action, prefix) && isRejected(action);
 
 export const isActionFulfilled =
-  (prefix: string) => (action: FulfilleddAction) =>
+  (prefix: string) => (action: FulfilledAction) =>
     hasPrefix(action, prefix) && isFulfilled(action);

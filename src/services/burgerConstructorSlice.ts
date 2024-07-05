@@ -1,15 +1,35 @@
-import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit';
-import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { orderBurgerApi } from '@api';
+import {
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+  nanoid
+} from '@reduxjs/toolkit';
+import {
+  RequestStatus,
+  TConstructorIngredient,
+  TIngredient,
+  TOrder
+} from '@utils-types';
 
 interface IBurgerConstructorState {
   bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
+  requestStatus: RequestStatus;
+  order: TOrder | null;
 }
 
 const initialState: IBurgerConstructorState = {
   bun: null,
-  ingredients: []
+  ingredients: [],
+  requestStatus: RequestStatus.Idle,
+  order: null
 };
+
+export const orderBurger = createAsyncThunk<TOrder, string[]>(
+  'burgerConstructor/orderBurger',
+  async (ingredientIds) => (await orderBurgerApi(ingredientIds)).order
+);
 
 export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
@@ -42,13 +62,37 @@ export const burgerConstructorSlice = createSlice({
     },
     clearConstructor: () => initialState
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(orderBurger.pending, (state) => {
+        state.requestStatus = RequestStatus.Loading;
+      })
+      .addCase(
+        orderBurger.fulfilled,
+        (state, action: PayloadAction<TOrder>) => {
+          state.order = action.payload;
+          state.requestStatus = RequestStatus.Success;
+          state.bun = initialState.bun;
+          state.ingredients = initialState.ingredients;
+        }
+      )
+      .addCase(orderBurger.rejected, (state) => {
+        state.requestStatus = RequestStatus.Failed;
+      });
+  },
   selectors: {
-    selectConstructorsItems: (state) => state
+    selectConstructorsItems: (state) => state,
+    selectConstructorsRequest: (state) => state.requestStatus,
+    selectConstructorsOrder: (state) => state.order
   }
 });
 
 export const burgerConstructorReducer = burgerConstructorSlice.reducer;
-export const { selectConstructorsItems } = burgerConstructorSlice.selectors;
+export const {
+  selectConstructorsItems,
+  selectConstructorsRequest,
+  selectConstructorsOrder
+} = burgerConstructorSlice.selectors;
 export const {
   addToConstructor,
   removeFromConstructor,

@@ -27,7 +27,10 @@ export const ProtectedRoute = ({
         replace
         to='/login'
         state={{
-          from: { ...location, locationState: location.state?.locationState }
+          from: {
+            ...location,
+            backgroundLocation: location.state?.backgroundLocation
+          }
         }}
       />
     );
@@ -35,8 +38,8 @@ export const ProtectedRoute = ({
 
   if (onlyUnAuth && user) {
     const from = location.state?.from || { pathname: '/' };
-    const locationState = location.state?.from?.locationState || null;
-    return <Navigate replace to={from} state={{ locationState }} />;
+    const backgroundLocation = location.state?.from?.backgroundLocation || null;
+    return <Navigate replace to={from} state={{ backgroundLocation }} />;
   }
 
   return children;
