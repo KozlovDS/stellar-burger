@@ -22,7 +22,7 @@ import {
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protected-route';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { getIngredients } from '../../services/ingredientsSlice';
 import { AppDispatch } from 'src/services/store';
 import { checkUserAuth, authCheck } from '../../services/userSlice';
@@ -31,7 +31,7 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const backgroundLocation = location.state?.background;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const feedOrderNumber = useMatch('/feed/:number')?.params.number;
   const userOrderNumber = useMatch('/profile/orders/:number')?.params.number;
 

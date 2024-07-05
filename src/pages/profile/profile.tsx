@@ -5,12 +5,12 @@ import {
   updateUser,
   selectorRequestStatus
 } from '../../services/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { AppDispatch } from 'src/services/store';
 import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const userData = useSelector(userSelectors.getUser);
   const user = userData || { name: '', email: '' };
   const status = useSelector(selectorRequestStatus);

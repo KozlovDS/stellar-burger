@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { RequestStatus, TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
 import {
   clearConstructor,
@@ -14,7 +14,7 @@ import { getUser } from '../../services/userSlice';
 import { AppDispatch } from 'src/services/store';
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(getUser);
 
