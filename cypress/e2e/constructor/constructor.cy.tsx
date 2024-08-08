@@ -1,6 +1,7 @@
 import type {} from 'cypress';
 
 const testUrl = 'http://localhost:4000';
+const modal = '[data-cy="modal"]';
 
 beforeEach(() => {
   window.localStorage.setItem('refreshToken', JSON.stringify('refreshToken'));
@@ -35,16 +36,16 @@ describe('Тесты страницы конструктора бургера', 
   it('Тест работы модальных окон', () => {
     //открытие модального окна ингредиента;
     cy.get('[data-id="ingredient-id-1"]').click();
-    cy.get('[data-cy="modal"]').should('be.visible');
+    cy.get(modal).should('be.visible');
 
     //закрытие по клику на крестик;
     cy.get('[data-cy="modal-close"]').click();
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(modal).should('not.exist');
 
     //закрытие по клику на оверлей
     cy.get('[data-id="ingredient-id-1"]').click();
     cy.get('[data-cy="modal-overlay"]').click({ force: true });
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(modal).should('not.exist');
   });
 
   it('Тест оформления заказа', () => {
@@ -57,11 +58,11 @@ describe('Тесты страницы конструктора бургера', 
     cy.get('[data-cy="order-button"]').click();
 
     //Проверяется, что модальное окно открылось и номер заказа верный.
-    cy.get('[data-cy="modal"]').contains('46436').should('exist');
+    cy.get(modal).contains('46436').should('exist');
 
     //Закрывается модальное окно и проверяется успешность закрытия.
     cy.get('[data-cy="modal-close"]').click();
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(modal).should('not.exist');
 
     //Проверяется, что конструктор пуст.
     cy.get('[data-cy="constructor-bun-1"]')
