@@ -26,6 +26,7 @@ import { useDispatch } from '../../services/store';
 import { getIngredients } from '../../services/ingredientsSlice';
 import { AppDispatch } from 'src/services/store';
 import { checkUserAuth, authCheck } from '../../services/userSlice';
+import { getCookie } from '../../utils/cookie';
 
 const App = () => {
   const navigate = useNavigate();
