@@ -1,5 +1,7 @@
 import type {} from 'cypress';
 
+const testUrl = 'http://localhost:4000';
+
 beforeEach(() => {
   window.localStorage.setItem('refreshToken', JSON.stringify('refreshToken'));
   cy.setCookie('accessToken', '9P36vGVYXkHb=oWdyXfAc?Fc42-5vWzC');
@@ -8,7 +10,7 @@ beforeEach(() => {
   cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
   cy.intercept('POST', 'api/orders', { fixture: 'order.json' });
 
-  cy.visit('http://localhost:4000');
+  cy.visit(testUrl);
   cy.viewport('macbook-13');
 });
 
