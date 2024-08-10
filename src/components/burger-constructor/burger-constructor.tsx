@@ -11,7 +11,6 @@ import {
   selectConstructorsRequest
 } from '../../services/burgerConstructorSlice';
 import { getUser } from '../../services/userSlice';
-import { AppDispatch } from 'src/services/store';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -24,6 +23,8 @@ export const BurgerConstructor: FC = () => {
     useSelector(selectConstructorsRequest) === RequestStatus.Loading;
 
   const orderModalData = useSelector(selectConstructorsOrder);
+
+  console.log(JSON.stringify(orderModalData));
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;

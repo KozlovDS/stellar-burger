@@ -5,7 +5,7 @@ import {
   logoutApi,
   registerUserApi,
   updateUserApi
-} from '@api';
+} from '../utils/burger-api';
 import { RequestStatus, TUser } from './../utils/types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { isActionPending, isActionRejected } from '../utils/redux';
@@ -16,7 +16,7 @@ export interface TUserState {
   requestStatus: RequestStatus;
 }
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   isAuthChecked: false,
   data: null,
   requestStatus: RequestStatus.Idle
@@ -110,3 +110,4 @@ export const { getUser, getIsAuthChecked, selectorRequestStatus } =
   userSlice.selectors;
 export const userSelectors = userSlice.selectors;
 export const userActions = userSlice.actions;
+export const userReducer = userSlice.reducer;
